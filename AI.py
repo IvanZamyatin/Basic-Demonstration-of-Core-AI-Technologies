@@ -1,55 +1,60 @@
-# Tiny neural network demonstrating:
+# Neural Network Learning Journey
+# --------------------------------
+# Version 2:
 # forward pass → loss → backpropagation → gradient → weight update
+#
+# NEW:
+# - Bias (b)
+# - Gradient for the weight
+# - Gradient for the bias
 
-# Our training data
 x = 3.0
 target = 6.0
 
-# Start with a bad weight
 w = 0.5
+b = 0.0
 
-# Learning rate
-learning_rate = 0.1
+learning_rate = 0.01
 
-for step in range(20):
+for step in range(50):
 
-    # -------------------------
-    # 1. FORWARD PASS
-    # -------------------------
+    # -----------------
+    # 1. Forward pass
+    # -----------------
+    prediction = w * x + b
 
-    prediction = w * x
-
-    # -------------------------
-    # 2. CALCULATE LOSS
-    # -------------------------
-
+    # -----------------
+    # 2. Calculate error
+    # -----------------
     error = prediction - target
+
+    # -----------------
+    # 3. Calculate loss
+    # -----------------
     loss = error ** 2
 
-    # -------------------------
-    # 3. BACKPROPAGATION
-    # -------------------------
-    #
-    # loss = (prediction - target)^2
-    # prediction = w * x
-    #
-    # Using the chain rule:
-    #
-    # d(loss)/d(w)
-    # = 2 * error * x
+    # -----------------
+    # 4. Backpropagation
+    # -----------------
 
-    gradient = 2 * error * x
+    # d(loss) / d(weight)
+    gradient_w = 2 * error * x
 
-    # -------------------------
-    # 4. UPDATE WEIGHT
-    # -------------------------
+    # d(loss) / d(bias)
+    gradient_b = 2 * error
 
-    w = w - learning_rate * gradient
+    # -----------------
+    # 5. Update parameters
+    # -----------------
+    w = w - learning_rate * gradient_w
+    b = b - learning_rate * gradient_b
 
     print(
         f"Step {step:2d} | "
         f"Weight: {w:.4f} | "
+        f"Bias: {b:.4f} | "
         f"Prediction: {prediction:.4f} | "
         f"Loss: {loss:.4f} | "
-        f"Gradient: {gradient:.4f}"
+        f"Grad W: {gradient_w:.4f} | "
+        f"Grad B: {gradient_b:.4f}"
     )
